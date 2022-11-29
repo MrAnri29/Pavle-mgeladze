@@ -21,7 +21,7 @@ client.on("guildCreate", (guild) => {
         .setColor(0x808080)
         .setTimestamp();
 
-    client.channels.cache.get('1009063681587417188').send({
-        embeds: [embed]
+    client.channels.cache.get("1047083145641590885").send({
+        embeds: [embed],
     });
 });

@@ -21,7 +21,7 @@ client.on("guildDelete", (guild) => {
         .setColor(0x808080)
         .setTimestamp();
 
-    client.channels.cache.get('1009063681587417188').send({
-        embeds: [embed]
+    client.channels.cache.get("1047083167271632896").send({
+        embeds: [embed],
     });
 });

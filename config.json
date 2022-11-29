@@ -1,6 +1,7 @@
 {
 	"prefix": "p?",
   "fail": "💢",
+  "success": "<a:tick:1047080839558746123>",
   "ban": "<:banned:1013443651499724841>",
   "kick": "👊",
   "transparent": "0x36393F",

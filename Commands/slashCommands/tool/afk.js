@@ -5,7 +5,6 @@ const {
 const {
   afk
 } = require("../../../Collection/afk.js")
-const chalk = require("chalk")
 
 module.exports = {
   name: 'afk',

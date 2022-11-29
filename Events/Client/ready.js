@@ -3,7 +3,9 @@ const chalk = require('chalk')
 const mongoose = require('mongoose')
 
 client.on("ready", () => {
-  client.channels.cache.get('1009063681587417188').send({ content: "<@671359057679876177> Bot is ready!" });
+  client.channels.cache
+      .get("1038895942428008548")
+      .send({ content: "<@671359057679876177> Bot is ready!" });
   console.log("Client • is ready")
   const activities = [
     { name: `${client.guilds.cache.size} Servers`, type: 2 }, // LISTENING
