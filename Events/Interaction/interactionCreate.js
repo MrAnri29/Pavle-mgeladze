@@ -19,11 +19,11 @@ client.on("interactionCreate", async (interaction) => {
     if (slashCommand.cooldown) {
       if (cooldown.has(`slash-${slashCommand.name}${interaction.user.id}`))
         return interaction.reply({
-          content: `You are on \`${ms(
+          content: `⏰ დაიცადე \`${ms(
             cooldown.get(`slash-${slashCommand.name}${interaction.user.id}`) -
               Date.now(),
             { long: true }
-          )}\` cooldown!`,
+          )}\` და მერე გამოიყენე ეს ბრძანება!`,
         });
       if (slashCommand.userPerms || slashCommand.botPerms) {
         //console.log(slashCommand.botPerms,  interaction.guild.members.cache.get(client.user.id).permissions.has(PermissionsBitField.resolve(slashCommand.botPerms || [])) )
@@ -48,7 +48,7 @@ client.on("interactionCreate", async (interaction) => {
         ) {
           const botPerms = new EmbedBuilder()
             .setDescription(
-              `🚫 ${interaction.user}, მე არ მაქვს \`${slashCommand.botPerms}\` უფლებები რომ შევასრულო ესბრძანება!`
+              `🚫 ${interaction.user}, მე არ მაქვს \`${slashCommand.botPerms}\` უფლებები რომ შევასრულო ეს ბრძანება!`
             )
             .setColor("Red");
           return interaction.reply({ embeds: [botPerms] });
@@ -72,7 +72,7 @@ client.on("interactionCreate", async (interaction) => {
         ) {
           const userPerms = new EmbedBuilder()
             .setDescription(
-              `🚫 ${interaction.user}, You don't have \`${slashCommand.userPerms}\` permissions to use this command!`
+              `🚫 ${interaction.user}, შენ არ გაქვს \`${slashCommand.userPerms}\` უფლებები რომ გამოიყენო ეს ბრძანება!`
             )
             .setColor("Red");
           return interaction.reply({ embeds: [userPerms] });
@@ -86,7 +86,7 @@ client.on("interactionCreate", async (interaction) => {
         ) {
           const botPerms = new EmbedBuilder()
             .setDescription(
-              `🚫 ${interaction.user}, I don't have \`${slashCommand.botPerms}\` permissions to use this command!`
+              `🚫 ${interaction.user}, მე არ მაქვს \`${slashCommand.botPerms}\` უფლებები რომ გამოვიყენო ეს ბრძანება!`
             )
             .setColor("Red");
           return interaction.reply({ embeds: [botPerms] });

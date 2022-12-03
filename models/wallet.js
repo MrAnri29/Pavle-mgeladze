@@ -11,5 +11,6 @@ module.exports = mongoose.model(
         bank: Number,
         daily: Number,
         monthly: Number,
+        rob: Number,
     })
 );

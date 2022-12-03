@@ -6,7 +6,7 @@ module.exports = {
     name: "monthly",
     description: "მიიღეთ თქვენი თვიური შემოსავალი!",
     type: ApplicationCommandType.ChatInput,
-    cooldown: 3000,
+    cooldown: 2592000000,
     utilization: "monthly",
     example: "monthly",
     /**
