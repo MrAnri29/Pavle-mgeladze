@@ -42,7 +42,7 @@ client.on("messageCreate", async (message) => {
             "თუ რაიმე გაუგებარია შეგიძლია გამოიყენო ბრძანება </help:1016036920851181588>"
         )
         .setThumbnail(client.user.displayAvatarURL({ dynamic: true }));
-    if (message.mentions.has(client.user)) {
+    if (message.mentions.users.first() === client.user) {
         return message.reply({
             embeds: [mentionReply],
         });
