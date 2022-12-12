@@ -27,17 +27,17 @@ module.exports = {
                 "ხოარ გაგიტკბა ძმა? პრეფიქსსში არშეიძლება იყოს 5-ზე მეტი სიმბოლო"
             );
         const guild = await Guilds.findOne({
-            guildId: message.channel.guild.id,
+            guildId: message.guild.id,
         });
         if (!guild) {
             await Guilds.create({
-                guildId: message.channel.guild.id,
+                guildId: message.guild.id,
                 prefix: args[0],
             });
             return message.reply("ახალი პრეფიქსია: " + args[0]);
         } else {
             await Guilds.updateOne(
-                { guildId: message.channel.guild.id },
+                { guildId: message.guild.id },
                 { prefix: args[0] }
             );
             return message.reply("ახალი პრეფიქსია: " + args[0]);

@@ -7,18 +7,6 @@ const { afk } = require("../../Collection/afk.js");
 const moment = require("moment");
 
 client.on("messageCreate", async (message) => {
-    const customPrefix = await Guilds.findOne({
-        guildId: message.channel.guild.id,
-    });
-
-    let prefix = "$"
-
-    if (customPrefix) {
-        prefix = customPrefix.prefix;
-    } else {
-        prefix = client.prefix
-    }
-
     if (message.author.bot) return;
     if (message.channel.type !== 0) return;
 
@@ -46,6 +34,18 @@ client.on("messageCreate", async (message) => {
     }
     // ! end of afk
 
+    let prefix;
+
+    const customPrefix = await Guilds.findOne({
+        guildId: message.guild.id,
+    });
+
+    if (customPrefix === null) {
+        prefix = client.prefix;
+    } else {
+        prefix = customPrefix.prefix;
+    }
+
     // ! Mention help
     const mentionReply = new EmbedBuilder()
         .setColor(0x808080)
@@ -53,13 +53,16 @@ client.on("messageCreate", async (message) => {
         .setDescription(
             `თუ რაიმე გაუგებარია შეგიძლია გამოიყენო ბრძანება </help:1016036920851181588> ან ${prefix}help`
         )
-        .setThumbnail(client.user.displayAvatarURL({ dynamic: true })).setFooter({
-            text: `ჩემი პრეფიქსია: ${prefix}`
+        .setThumbnail(client.user.displayAvatarURL({ dynamic: true }))
+        .setFooter({
+            text: `ჩემი პრეფიქსია: ${prefix}`,
         });
     if (message.mentions.users.first() === client.user) {
-        return message.reply({
-            embeds: [mentionReply],
-        });
+        if (message.content.startsWith("<")) {
+            return message.reply({
+                embeds: [mentionReply],
+            });
+        }
     }
     // ! end of mention help
 
