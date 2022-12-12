@@ -1,12 +1,24 @@
 const client = require("../..");
 const { EmbedBuilder, Collection, PermissionsBitField } = require("discord.js");
 const ms = require("ms");
-const prefix = client.prefix;
+const Guilds = require("../../models/guilds");
 const cooldown = new Collection();
 const { afk } = require("../../Collection/afk.js");
 const moment = require("moment");
 
 client.on("messageCreate", async (message) => {
+    const customPrefix = await Guilds.findOne({
+        guildId: message.channel.guild.id,
+    });
+
+    let prefix = "$"
+
+    if (customPrefix) {
+        prefix = customPrefix.prefix;
+    } else {
+        prefix = client.prefix
+    }
+
     if (message.author.bot) return;
     if (message.channel.type !== 0) return;
 
@@ -39,9 +51,11 @@ client.on("messageCreate", async (message) => {
         .setColor(0x808080)
         .setTitle("რატო მთაგავ?")
         .setDescription(
-            "თუ რაიმე გაუგებარია შეგიძლია გამოიყენო ბრძანება </help:1016036920851181588>"
+            `თუ რაიმე გაუგებარია შეგიძლია გამოიყენო ბრძანება </help:1016036920851181588> ან ${prefix}help`
         )
-        .setThumbnail(client.user.displayAvatarURL({ dynamic: true }));
+        .setThumbnail(client.user.displayAvatarURL({ dynamic: true })).setFooter({
+            text: `ჩემი პრეფიქსია: ${prefix}`
+        });
     if (message.mentions.users.first() === client.user) {
         return message.reply({
             embeds: [mentionReply],
@@ -51,6 +65,7 @@ client.on("messageCreate", async (message) => {
 
     if (!message.content.startsWith(prefix)) return;
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const argsF = message.content.split(" ").slice(1);
     const cmd = args.shift().toLowerCase();
     if (cmd.length == 0) return;
     let command = client.commands.get(cmd);
@@ -60,11 +75,11 @@ client.on("messageCreate", async (message) => {
         if (command.cooldown) {
             if (cooldown.has(`${command.name}${message.author.id}`))
                 return message.channel.send({
-                    content: `You are on \`${ms(
+                    content: `⏰ დაიცადე \`${ms(
                         cooldown.get(`${command.name}${message.author.id}`) -
                             Date.now(),
                         { long: true }
-                    )}\` cooldown!`,
+                    )}\` და მერე გამოიყენე ეს ბრძანება!`,
                 });
             if (command.userPerms || command.botPerms) {
                 if (
@@ -74,7 +89,7 @@ client.on("messageCreate", async (message) => {
                 ) {
                     const userPerms = new EmbedBuilder()
                         .setDescription(
-                            `🚫 ${message.author}, You don't have \`${command.userPerms}\` permissions to use this command!`
+                            `🚫 ${message.author}, შენ არ გაქვს \`${command.userPerms}\` უფლებები რომ გამოიყენო ეს ბრძანება!`
                         )
                         .setColor("Red");
                     return message.reply({
@@ -90,7 +105,7 @@ client.on("messageCreate", async (message) => {
                 ) {
                     const botPerms = new EmbedBuilder()
                         .setDescription(
-                            `🚫 ${message.author}, I don't have \`${command.botPerms}\` permissions to use this command!`
+                            `🚫 ${message.author}, მე არ მაქვს \`${command.botPerms}\` უფლებები რომ გამოიყენო ეს ბრძანება!`
                         )
                         .setColor("Red");
                     return message.reply({
@@ -99,7 +114,7 @@ client.on("messageCreate", async (message) => {
                 }
             }
 
-            command.run(client, message, args);
+            command.run(client, message, args, argsF, prefix);
             cooldown.set(
                 `${command.name}${message.author.id}`,
                 Date.now() + command.cooldown
@@ -116,7 +131,7 @@ client.on("messageCreate", async (message) => {
                 ) {
                     const userPerms = new EmbedBuilder()
                         .setDescription(
-                            `🚫 ${message.author}, You don't have \`${command.userPerms}\` permissions to use this command!`
+                            `🚫 ${message.author}, შენ არ გაქვს \`${command.userPerms}\` უფლებები რომ გამოიყენო ეს ბრძანება!`
                         )
                         .setColor("Red");
                     return message.reply({
@@ -133,7 +148,7 @@ client.on("messageCreate", async (message) => {
                 ) {
                     const botPerms = new EmbedBuilder()
                         .setDescription(
-                            `🚫 ${message.author}, I don't have \`${command.botPerms}\` permissions to use this command!`
+                            `🚫 ${message.author}, მე არ მაქვს \`${command.botPerms}\` უფლებები რომ გამოიყენო ეს ბრძანება!`
                         )
                         .setColor("Red");
                     return message.reply({
@@ -141,7 +156,7 @@ client.on("messageCreate", async (message) => {
                     });
                 }
             }
-            command.run(client, message, args);
+            command.run(client, message, args, argsF, prefix);
         }
     }
 });

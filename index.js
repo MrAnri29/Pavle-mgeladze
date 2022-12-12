@@ -18,7 +18,7 @@ client.commands = new Collection()
 client.aliases = new Collection()
 client.events = new Collection();
 client.slashCommands = new Collection();
-client.prefix = config.prefix
+client.prefix = config.prefix;
 
 module.exports = client;
 

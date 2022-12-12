@@ -4,8 +4,8 @@ const mongoose = require('mongoose')
 
 client.on("ready", () => {
   client.channels.cache
-      .get("1038895942428008548")
-      .send({ content: "<@671359057679876177> Bot is ready!" });
+      .get("1051825677961265232")
+      .send({ content: "Bot is ready!" });
   console.log("Client • is ready")
   const activities = [
     { name: `${client.guilds.cache.size} Servers`, type: 2 }, // LISTENING
