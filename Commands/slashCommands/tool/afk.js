@@ -25,7 +25,22 @@ module.exports = {
         interaction.options.getString("reason") || "`მიზეზი არ არის მითითებული`";
       const user = interaction.member;
 
-      afk.set(interaction.user.id+interaction.guild.id, [Date.now(), reason])
+      afk.set(interaction.user.id + interaction.guild.id, [Date.now(), reason]);
+      interaction.member
+          .setNickname(
+              `[AFK] ${interaction.member.nickname || interaction.user.username}`,
+              "Sets AFK status"
+          )
+          .catch(() => {
+              interaction.channel.send({
+                      content: `:x: **${interaction.user.username}** მე თქვენ ნიკნეიმს ვერ შეგიცვლით`,
+                  })
+                  .then((msg) => {
+                      setTimeout(() => {
+                          msg.delete();
+                      }, 1500);
+                  });
+          });
 
       const afkEmbed = new EmbedBuilder()
         .setAuthor({

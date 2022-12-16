@@ -9,6 +9,17 @@ const moment = require("moment");
 client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
     if (message.channel.type !== 0) return;
+    let prefix;
+
+    const customPrefix = await Guilds.findOne({
+        guildId: message.guild.id,
+    });
+
+    if (customPrefix === null) {
+        prefix = client.prefix;
+    } else {
+        prefix = customPrefix.prefix;
+    }
 
     // ! AFK
     const afkMember = message.mentions.members.first();
@@ -23,8 +34,12 @@ client.on("messageCreate", async (message) => {
             });
         }
     }
-    if (!message.content.startsWith("!afk")) {
+    if (!message.content.startsWith(prefix + "afk" || prefix + " afk")) {
         const gData = afk.get(message.author.id + message.guild.id);
+        if (message.member.nickname && message.member.nickname.startsWith("[AFK]")) {
+            const nick = message.member.nickname.replace("[AFK] ", "");
+            message.member.setNickname(nick);
+        }
         if (gData) {
             afk.delete(message.author.id + message.guild.id);
             message.reply({
@@ -33,18 +48,6 @@ client.on("messageCreate", async (message) => {
         }
     }
     // ! end of afk
-
-    let prefix;
-
-    const customPrefix = await Guilds.findOne({
-        guildId: message.guild.id,
-    });
-
-    if (customPrefix === null) {
-        prefix = client.prefix;
-    } else {
-        prefix = customPrefix.prefix;
-    }
 
     // ! Mention help
     const mentionReply = new EmbedBuilder()
