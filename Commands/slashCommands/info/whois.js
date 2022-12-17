@@ -27,8 +27,6 @@ module.exports = {
     run: async (_, interaction) => {
         const target = interaction.options.getMember("user");
 
-        // Console
-
         let color = target.displayHexColor;
         if (color === "#000000") color = config.transparent;
 
@@ -38,6 +36,17 @@ module.exports = {
             idle: "<:idle_status:1021011154660757525> Idle",
             offline: "<:offline_status:1021011341747695666> Offline/Invisible",
         };
+
+        let rolesStr = target.roles.cache
+            .filter((r) => !r.name.includes("everyone"))
+            .map((r) => r)
+            .sort((x, y) => y.position - x.position)
+            .join(", ");
+
+        if (rolesStr.length > 1024) {
+            rolesStr =
+                "მომხმარებელს იმდენი როლი აქვს რო ემბედშიც ვერ დაეტევა ლმაო";
+        }
 
         const embed = new EmbedBuilder()
             .setAuthor({
@@ -78,11 +87,7 @@ module.exports = {
                 },
                 {
                     name: `როლები [${target.roles.cache.size - 1}]`,
-                    value: target.roles.cache
-                        .filter((r) => !r.name.includes("everyone"))
-                        .map((r) => r)
-                        .sort((x, y) => y.position - x.position)
-                        .join(", "),
+                    value: rolesStr,
                     inline: false,
                 }
             );
