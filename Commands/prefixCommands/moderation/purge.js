@@ -8,8 +8,8 @@ module.exports = {
     utilization: "purge <რაოდენობა>",
     example: "purge 99",
     cooldown: 5000,
-    userPerms: ["SendMessages"],
-    botPerms: ["SendMessages"],
+    userPerms: ["SendMessages", "ManageGuild"],
+    botPerms: ["SendMessages", "ManageGuild"],
     run: async (client, message, args) => {
         try {
             let parseNum = Number(args[0]);
