@@ -17,11 +17,13 @@ module.exports = {
             required: true,
         },
     ],
+    userPerms: ["SendMessages"],
+    botPerms: ["SendMessages"],
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction
      */
-    run: async (client, interaction) => {
+    run: async (_, interaction) => {
         const member = interaction.options.getUser("user");
         const user = await profile.findOne({ userId: interaction.user.id });
         const target = await profile.findOne({ userId: member.id });

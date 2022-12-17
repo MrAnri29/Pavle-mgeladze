@@ -17,8 +17,8 @@ module.exports = {
       required: true,
     },
   ],
-  userPerms: ["ManageMessages", "ReadMessageHistory"],
-  botPerms: ["ManageMessages", "ReadMessageHistory"],
+  userPerms: ["ManageMessages", "SendMessages"],
+  botPerms: ["ManageMessages", "SendMessages"],
   /**
    * @param {Client} client
    * @param {CommandInteraction} interaction

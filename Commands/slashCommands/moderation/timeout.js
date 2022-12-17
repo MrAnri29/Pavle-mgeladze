@@ -67,8 +67,8 @@ module.exports = {
       required: false,
     },
   ],
-  userPerms: ["ModerateMembers"],
-  botPerms: ["ModerateMembers"],
+  userPerms: ["ModerateMembers", "SendMessages"],
+  botPerms: ["ModerateMembers", "SendMessages"],
   /**
    * @param {Client} client
    * @param {CommandInteraction} interaction

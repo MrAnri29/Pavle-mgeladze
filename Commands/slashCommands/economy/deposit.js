@@ -3,36 +3,40 @@ const { success, fail } = require('../../../config.json');
 const profile = require("../../../models/wallet");
 
 module.exports = {
-    name: 'deposit',
-    description: 'შეიტანეთ ფული ბანკში',
+    name: "deposit",
+    description: "შეიტანეთ ფული ბანკში",
     type: ApplicationCommandType.ChatInput,
     cooldown: 3000,
-    utilization: 'deposit <რაოდენობა>',
-    example: 'deposit 1000',
-    options: [{
-        name: 'amount',
-        description: 'რა თანხის შეტანა გნებავთ?',
-        type: 4,
-        required: true
-    }],
-    /** 
-     * @param {Client} client 
-     * @param {CommandInteraction} interaction 
+    utilization: "deposit <რაოდენობა>",
+    example: "deposit 1000",
+    options: [
+        {
+            name: "amount",
+            description: "რა თანხის შეტანა გნებავთ?",
+            type: 4,
+            required: true,
+        },
+    ],
+    userPerms: ["SendMessages"],
+    botPerms: ["SendMessages"],
+    /**
+     * @param {Client} client
+     * @param {CommandInteraction} interaction
      */
-    run: async(client, interaction) => {
+    run: async (client, interaction) => {
         const amount = interaction.options.getInteger("amount");
         const user = await profile.findOne({
-            userId: interaction.user.id
-        })
+            userId: interaction.user.id,
+        });
 
         if (!user) {
-            return `${fail} თქვენ არ გაქვთ საფულე!\n*გასაკეთებლად გამოიყენეთ ბრძანება /wallet-create*`
+            return `${fail} თქვენ არ გაქვთ საფულე!\n*გასაკეთებლად გამოიყენეთ ბრძანება /wallet-create*`;
         }
 
         if (amount > user.balance) {
             return interaction.reply({
                 content: `${fail} თქვენ არგაქვთ საკმარისი თანხა!`,
-                ephemeral: true
+                ephemeral: true,
             });
         }
 
@@ -48,7 +52,7 @@ module.exports = {
 
         interaction.reply({
             content: `${success} თქვენ შეიტანეთ ${amount}₾ ბანკში!`,
-            ephemeral: true
-        })
-    }
-}
+            ephemeral: true,
+        });
+    },
+};

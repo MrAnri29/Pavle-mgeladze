@@ -21,8 +21,8 @@ module.exports = {
   ],
   utilization: "ban <user> [reason]",
   example: "ban @vajex ზედმეტად ბევრს ტლიკინებს",
-  userPerms: ['BanMembers'],
-  botPerms: ['BanMembers'],
+  userPerms: ['BanMembers', 'SendMessages'],
+  botPerms: ['BanMembers', 'SendMessages'],
   run: async (client, interaction) => {
     const target = interaction.options.getMember("user");
     const reason =

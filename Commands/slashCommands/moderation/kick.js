@@ -20,8 +20,8 @@ module.exports = {
   ],
   utilization: "kick <user> [reason]",
   example: "kick @vajex ზედმეტად ბევრს ტლიკინებს",
-  userPerms: ['KickMembers'],
-  botPerms: ['KickMembers'],
+  userPerms: ['KickMembers', 'SendMessages'],
+  botPerms: ['KickMembers', 'SendMessages'],
   run: async (client, interaction) => {
     const target = interaction.options.getMember("user");
     const reason =

@@ -9,7 +9,7 @@ module.exports = {
     cooldown: 5000,
     userPerms: ["SendMessages"],
     botPerms: ["SendMessages"],
-    run: async (client, message, args) => {
+    run: async (_, message, args) => {
         try {
             const reason = args[0] || "`მიზეზი არ არის მითითებული`";
 

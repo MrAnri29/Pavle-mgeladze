@@ -20,9 +20,9 @@ module.exports = {
   ],
   utilization: "warn <user> <reason>",
   example: "warn @vajex ზედმეტად ბევრს ტლიკინებს",
-  userPerms: ["KickMembers"],
-  botPerms: ["KickMembers"],
-  run: async (client, interaction) => {
+  userPerms: ["ManageGuild", "SendMessages"],
+  botPerms: ["ManageGuild", "SendMessages"],
+  run: async (_, interaction) => {
     const user = interaction.options.getUser("user");
     const reason = interaction.options.getString("reason");
 

@@ -9,25 +9,35 @@ module.exports = {
     cooldown: 3000,
     utilization: "wallet-create",
     example: "wallet-create",
+    userPerms: ["SendMessages"],
+    botPerms: ["SendMessages"],
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction
      */
-    run: async (client, interaction) => {
+    run: async (_, interaction) => {
         const isReg = await profile.find({
             userId: interaction.user.id,
         });
         if (isReg.length > 0) {
-            return interaction.reply({content: `${fail} თქვენ უკვე გაქვთ საფულე!`})
+            return interaction.reply({
+                content: `${fail} თქვენ უკვე გაქვთ საფულე!`,
+            });
         }
         if (isReg.length <= 0) {
             const createProfile = new profile({
                 userId: interaction.user.id,
                 balance: 1000,
                 bank: 0,
-            })
+            });
 
-            createProfile.save().then(interaction.reply({content: `${success} თქვენ გააკეთეთ საფულე!`}));
+            createProfile
+                .save()
+                .then(
+                    interaction.reply({
+                        content: `${success} თქვენ გააკეთეთ საფულე!`,
+                    })
+                );
         }
     },
 };

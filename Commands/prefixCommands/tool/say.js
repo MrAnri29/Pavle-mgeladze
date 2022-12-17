@@ -8,7 +8,7 @@ module.exports = {
     cooldown: 3000,
     userPerms: ["SendMessages"],
     botPerms: ["SendMessages"],
-    run: async (client, message, args, argsF) => {
+    run: async (client, message, _, argsF) => {
         const content = argsF.join(" ");
         if(content.includes("@everyone") || content.includes("@here")) return message.reply("შენ ამ ბრძანებით არ შეგიძლია დათაგო everyone და here!")
         const howToUse = new EmbedBuilder()

@@ -12,7 +12,7 @@ module.exports = {
     cooldown: 3000,
     userPerms: ['SendMessages'],
     botPerms: ['SendMessages'],
-    run: async (client, message, args) => {
+    run: async (client, message) => {
         const inviteUrl = `https://discord.com/api/oauth2/authorize?client_id=${process.env.CLIENT_ID}&permissions=8&scope=bot%20applications.commands`;
         const embed = new EmbedBuilder()
             .setTitle('მომიწვიე')

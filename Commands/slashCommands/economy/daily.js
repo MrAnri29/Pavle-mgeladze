@@ -9,11 +9,13 @@ module.exports = {
     cooldown: 86400000,
     utilization: "daily",
     example: "daily",
+    userPerms: ["SendMessages"],
+    botPerms: ["SendMessages"],
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction
      */
-    run: async (client, interaction) => {
+    run: async (_, interaction) => {
         const user = await profile.findOne({ userId: interaction.user.id });
 
         if (!user) {

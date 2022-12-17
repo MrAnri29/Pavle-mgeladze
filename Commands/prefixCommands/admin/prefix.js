@@ -9,7 +9,7 @@ module.exports = {
     cooldown: 10000,
     userPerms: ["SendMessages", "Administrator"],
     botPerms: ["SendMessages", "Administrator"],
-    run: async (client, message, args, _, prefix) => {
+    run: async (_, message, args, __, prefix) => {
         if (!args[0])
             return message.reply({
                 embeds: [

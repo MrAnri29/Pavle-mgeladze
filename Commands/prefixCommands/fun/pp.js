@@ -8,7 +8,7 @@ module.exports = {
     cooldown: 3000,
     userPerms: ["SendMessages"],
     botPerms: ["SendMessages"],
-    run: async (client, message, args) => {
+    run: async (_, message, args) => {
         const targetUser = args[0] ? message.mentions.members.first().user : message.author;
 
         let randomNumber = Math.floor(Math.random() * 10);

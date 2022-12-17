@@ -10,7 +10,7 @@ module.exports = {
     cooldown: 3000,
     userPerms: ["SendMessages"],
     botPerms: ["SendMessages"],
-    run: async (client, message, args) => {
+    run: async (client, message) => {
     const myMsg = await message.reply(":ping_pong: Pong!");
     const msg = await message.fetch();
     const embed = new EmbedBuilder()

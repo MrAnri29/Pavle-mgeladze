@@ -33,11 +33,13 @@ module.exports = {
             ],
         },
     ],
+    userPerms: ["SendMessages"],
+    botPerms: ["SendMessages"],
     /**
      * @param {Client} client
      * @param {CommandInteraction} interaction
      */
-    run: async (client, interaction) => {
+    run: async (_, interaction) => {
         const amount = interaction.options.getInteger("amount");
         const choice = interaction.options.getString("choice");
 
@@ -52,26 +54,26 @@ module.exports = {
 
         if (amount > user.balance) {
             return interaction.reply({
-                content: `${fail} თქვენ არ გაქვთ საკმარისი თანხა!`
-            })
+                content: `${fail} თქვენ არ გაქვთ საკმარისი თანხა!`,
+            });
         }
 
         if (amount < 100) {
             return interaction.reply({
-                content: `${fail} თქვენ ვერ დადებთ 100₾-ზე ნაკლებს!`
-            })
+                content: `${fail} თქვენ ვერ დადებთ 100₾-ზე ნაკლებს!`,
+            });
         }
 
         const cf = ["გერბი", "საფასური"];
         const cfRandom = cf[Math.floor(Math.random() * cf.length)];
 
-        let win = Math.floor((Math.random() * 2000) + amount);
+        let win = Math.floor(Math.random() * 2000 + amount);
 
         if (win > user.balance) {
             win = user.balance;
         }
 
-        const cfEmbed = new EmbedBuilder()
+        const cfEmbed = new EmbedBuilder();
 
         if (cfRandom == choice) {
             cfEmbed
@@ -86,8 +88,8 @@ module.exports = {
                 }
             );
             return interaction.reply({
-                embeds: [cfEmbed]
-            })
+                embeds: [cfEmbed],
+            });
         } else {
             cfEmbed
                 .setDescription(
