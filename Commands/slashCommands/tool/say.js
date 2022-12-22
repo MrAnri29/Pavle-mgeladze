@@ -26,7 +26,7 @@ module.exports = {
             required: false,
         },
     ],
-    userPerms: ["SendMessages"],
+    userPerms: ["SendMessages", "MentionEveryone"],
     botPerms: ["SendMessages", "MentionEveryone"],
     run: async (_, interaction) => {
         const text = interaction.options.getString("text");
