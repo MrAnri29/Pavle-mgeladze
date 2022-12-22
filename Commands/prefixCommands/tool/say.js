@@ -10,7 +10,21 @@ module.exports = {
     botPerms: ["SendMessages"],
     run: async (client, message, _, argsF) => {
         const content = argsF.join(" ");
-        if(content.includes("@everyone") || content.includes("@here")) return message.reply("შენ ამ ბრძანებით არ შეგიძლია დათაგო everyone და here!")
+        if (content.includes("@everyone") || content.includes("@here")) {
+            message.channel.send(
+                "შენ ამ ბრძანებით არ შეგიძლია დათაგო everyone და here!"
+            );
+            return message.delete();
+        }
+
+        if (message.mentions.roles.first()) {
+            message.channel.send("თქვენ არშეგიძლიათ მოპინგოთ როლები!");
+            return message.delete();
+        }
+        if (message.mentions.users.first()) {
+            message.channel.send("თქვენ არშეგიძლიათ მოპინგოთ ხალხი!");
+            return message.delete();
+        }
         const howToUse = new EmbedBuilder()
             .setTitle("ცალტვინაებისათვის")
             .setDescription("როგორ უნდა გამოვიყენოთ say ბრძანება")
@@ -34,7 +48,7 @@ module.exports = {
         try {
             if (content[0] === "{") {
                 const params = JSON.parse(content);
-                console.log(params)
+                console.log(params);
                 return message.reply(params).catch((err) => {
                     return message.reply({
                         embeds: [howToUse],
