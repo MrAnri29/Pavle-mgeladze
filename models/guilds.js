@@ -9,7 +9,11 @@ module.exports = mongoose.model(
         },
         prefix: {
             type: String,
-            required: true,
+            required: false,
+        },
+        joinChannel: {
+            type: String,
+            required: false
         },
     })
 );

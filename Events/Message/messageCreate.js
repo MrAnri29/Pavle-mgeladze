@@ -36,7 +36,10 @@ client.on("messageCreate", async (message) => {
     }
     if (!message.content.startsWith(prefix + "afk" || prefix + " afk")) {
         const gData = afk.get(message.author.id + message.guild.id);
-        if (message.member.nickname && message.member.nickname.startsWith("[AFK]")) {
+        if (
+            message.member.nickname &&
+            message.member.nickname.startsWith("[AFK]")
+        ) {
             const nick = message.member.nickname.replace("[AFK] ", "");
             message.member.setNickname(nick);
         }
