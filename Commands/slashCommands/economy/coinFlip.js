@@ -40,26 +40,27 @@ module.exports = {
      * @param {CommandInteraction} interaction
      */
     run: async (_, interaction) => {
+        await interaction.deferReply();
         const amount = interaction.options.getInteger("amount");
         const choice = interaction.options.getString("choice");
 
         const user = await profile.findOne({ userId: interaction.user.id });
 
         if (!user) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} თქვენ არ გაქვთ საფულე!\n*შესაქმნელად გამოიყენეთ ბრძანება /wallet-create*`,
                 ephemeral: true,
             });
         }
 
         if (amount > user.balance) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} თქვენ არ გაქვთ საკმარისი თანხა!`,
             });
         }
 
         if (amount < 100) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} თქვენ ვერ დადებთ 100₾-ზე ნაკლებს!`,
             });
         }
@@ -87,7 +88,7 @@ module.exports = {
                     balance: user.balance + win,
                 }
             );
-            return interaction.reply({
+            return interaction.followUp({
                 embeds: [cfEmbed],
             });
         } else {
@@ -102,7 +103,7 @@ module.exports = {
                     balance: user.balance - amount,
                 }
             );
-            return interaction.reply({
+            return interaction.followUp({
                 embeds: [cfEmbed],
             });
         }

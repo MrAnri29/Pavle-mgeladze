@@ -16,11 +16,12 @@ module.exports = {
      * @param {CommandInteraction} interaction
      */
     run: async (_, interaction) => {
+        await interaction.deferReply();
         const isReg = await profile.find({
             userId: interaction.user.id,
         });
         if (isReg.length > 0) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} თქვენ უკვე გაქვთ საფულე!`,
             });
         }
@@ -31,13 +32,11 @@ module.exports = {
                 bank: 0,
             });
 
-            createProfile
-                .save()
-                .then(
-                    interaction.reply({
-                        content: `${success} თქვენ გააკეთეთ საფულე!`,
-                    })
-                );
+            createProfile.save().then(
+                interaction.followUp({
+                    content: `${success} თქვენ გააკეთეთ საფულე!`,
+                })
+            );
         }
     },
 };

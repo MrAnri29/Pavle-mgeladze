@@ -1,5 +1,10 @@
-const { ApplicationCommandType, EmbedBuilder } = require("discord.js");
+const {
+    ApplicationCommandType,
+    EmbedBuilder,
+    CommandInteraction,
+} = require("discord.js");
 const Wallets = require("../../../models/wallet");
+const { transparent } = require("../../../config.json");
 
 module.exports = {
     name: "leaderboard",
@@ -15,6 +20,7 @@ module.exports = {
      * @param {CommandInteraction} interaction
      */
     run: async (client, interaction) => {
+        await interaction.deferReply()
         let members = [];
         const wallets = await Wallets.find({});
         for (let obj of wallets) {
@@ -28,18 +34,16 @@ module.exports = {
 
         const lb = new EmbedBuilder()
             .setTitle(`Leaderboard ${interaction.guild.name}-ზე`)
-            .setColor(0x808080)
+            .setColor(transparent)
             .setFooter({
                 text: "ვაი შე გაჭირვებულო... მოდი ქოდინგს გასწავლი და ფული გექნება",
                 iconURL: interaction.user.displayAvatarURL({ dynamic: true }),
             });
 
         members = members.sort((a, b) => {
-            return (b.balance + b.bank) - (a.balance + a.bank);
-        });
-
-        member = members.filter((value) => {
-            return( value.balance + value.bank )> 0;
+            return b.balance + b.bank - (a.balance + a.bank);
+        }).filter((value) => {
+            return value.balance + value.bank > 0;
         });
 
         let pos = 0;
@@ -52,17 +56,18 @@ module.exports = {
                 });
         }
 
-        members = members.slice(0, 10);
+        members = members.slice(0, 5);
         let desc = "";
-        for (let i; i < members.length; i++) {
+        for (i = 0; i < members.length; i++) {
             let user = client.users.cache.get(members[i].userId);
             if (!user) return;
-            let balance = members[i].balance + members[i].bank;
-            desc = `${i++}. ${user.tag} - ${balance}`;
+            let bal = members[i].balance + members[i].bank
+            desc += `${1 + i}. *${
+                user.tag
+            }* : \`${bal.toLocaleString()} 💠\`\n`;
         }
+        lb.setDescription(desc)
 
-        lb.setDescription(desc);
-
-        interaction.reply({ embeds: [lb] });
+        interaction.followUp({ embeds: [lb] });
     },
 };

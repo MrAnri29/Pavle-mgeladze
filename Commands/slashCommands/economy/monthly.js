@@ -16,10 +16,11 @@ module.exports = {
      * @param {CommandInteraction} interaction
      */
     run: async (_, interaction) => {
+        await interaction.deferReply();
         const user = await profile.findOne({ userId: interaction.user.id });
 
         if (!user) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} თქვენ არ გაქვთ საფულე!\n*შესაქმნელად გამოიყენეთ ბრძანება /wallet-create*`,
                 ephemeral: true,
             });
@@ -28,7 +29,7 @@ module.exports = {
         const date = Date.now() - user.monthly;
 
         if (date < 2592000000) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} თქვენ უკვე აიღეთ თქვენი თვიური შემოსავალი!`,
                 ephemeral: true,
             });
@@ -44,7 +45,7 @@ module.exports = {
             }
         );
 
-        interaction.reply({
+        interaction.followUp({
             content: `${success} თქვენ აიღეთ თქვენი თვიური შემოსავალი ${amount}₾`,
         });
     },

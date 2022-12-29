@@ -16,12 +16,13 @@ module.exports = {
      * @param {CommandInteraction} interaction
      */
     run: async (_, interaction) => {
+        await interaction.deferReply();
         const user = await profile.findOne({
             userId: interaction.user.id,
         });
 
         if (!user) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} თქვენ არ გაქვთ საფულე!\n*შესაქმნელად გამოიყენეთ ბრძანება /wallet-create*`,
                 ephemeral: true,
             });
@@ -40,7 +41,7 @@ module.exports = {
             .setThumbnail(interaction.guild.iconURL({ dynamic: true }))
             .setColor(transparent);
 
-        interaction.reply({
+        interaction.followUp({
             embeds: [userEmbed],
         });
     },

@@ -23,7 +23,8 @@ module.exports = {
      * @param {Client} client
      * @param {CommandInteraction} interaction
      */
-    run: async (client, interaction) => {
+    run: async (_, interaction) => {
+        await interaction.deferReply();
         const amount = interaction.options.getInteger("amount");
         const user = await profile.findOne({
             userId: interaction.user.id,
@@ -34,7 +35,7 @@ module.exports = {
         }
 
         if (amount > user.balance) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} თქვენ არგაქვთ საკმარისი თანხა!`,
                 ephemeral: true,
             });
@@ -50,7 +51,7 @@ module.exports = {
             }
         );
 
-        interaction.reply({
+        interaction.followUp({
             content: `${success} თქვენ შეიტანეთ ${amount}₾ ბანკში!`,
             ephemeral: true,
         });

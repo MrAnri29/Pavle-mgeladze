@@ -24,18 +24,19 @@ module.exports = {
      * @param {CommandInteraction} interaction
      */
     run: async (_, interaction) => {
+        await interaction.deferReply();
         const member = interaction.options.getUser("user");
         const user = await profile.findOne({ userId: interaction.user.id });
         const target = await profile.findOne({ userId: member.id });
         if (!target) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} მას საფულეც არ აქვს და როგორ გაქურდავ?`,
                 ephemeral: true,
             });
         }
 
         if (!user) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} თქვენ არ გაქვთ საფულე\n*შესაქმნელად გამოიყენეთ ბრძანება /wallet-create*`,
                 ephemeral: true,
             });
@@ -44,13 +45,13 @@ module.exports = {
         const date = Date.now() - user.rob;
 
         if (date < 7200000) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} თქვენ უკვე გამოიყენეთ ეს ბრძანება!`,
             });
         }
 
         if (target.balance <= 0) {
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} არგეცოდება? ისედაც ვალებშია ადამიანი`,
             });
         }
@@ -78,7 +79,7 @@ module.exports = {
                     balance: target.balance - amount,
                 }
             );
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${success} თქვენ მოპარეთ **${member.username}**-ს ${amount} ლარი!`,
             });
         } else {
@@ -89,7 +90,7 @@ module.exports = {
                     rob: Date.now(),
                 }
             );
-            return interaction.reply({
+            return interaction.followUp({
                 content: `${fail} თქვენ დაგიჭირათ პოლიციამ და დაგაჯარიმათ ${amount} ლარით!`,
             });
         }

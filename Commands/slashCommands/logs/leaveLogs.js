@@ -1,17 +1,14 @@
-const {
-    ApplicationCommandType,
-    CommandInteraction,
-} = require("discord.js");
+const { ApplicationCommandType, CommandInteraction } = require("discord.js");
 const Guilds = require("../../../models/guilds");
 const { success } = require("../../../config.json");
 
 module.exports = {
-    name: "logs-join",
-    description: "დააყენეთ ახალი წევრების ლოგების არხი",
+    name: "log-leave",
+    description: "დააყენეთ გასული წევრების ლოგების არხი",
     type: ApplicationCommandType.ChatInput,
     cooldown: 3000,
-    utilization: "logs-join <channel>",
-    example: "logs-join #join-logs",
+    utilization: "log-leave <channel>",
+    example: "log-leave #leave-logs",
     userPerms: ["SendMessages", "ManageGuild"],
     botPerms: ["SendMessages"],
     options: [
@@ -29,25 +26,25 @@ module.exports = {
      */
     run: async (_, interaction) => {
         const { guild, options } = interaction;
-        const joinChx = options.getChannel("channel");
+        const leaveChx = options.getChannel("channel");
         Guilds.findOne({ guildId: guild.id }, async (__, data) => {
             if (!data) {
                 await Guilds.create({
                     guildId: guild.id,
-                    joinChannel: joinChx.id,
+                    leaveChannel: leaveChx.id,
                 });
                 return interaction.reply({
-                    content: `${success} შემოსული წევრების ლოგები: ${joinChx}`,
+                    content: `${success} გასული წევრების ლოგები: ${leaveChx}`,
                 });
             } else if (data) {
                 await Guilds.updateOne(
                     { guildId: guild.id },
                     {
-                        joinChannel: joinChx.id,
+                        leaveChannel: leaveChx.id,
                     }
                 );
                 return interaction.reply({
-                    content: `${success} შემოსული წევრების ლოგები: ${joinChx}`,
+                    content: `${success} გასული წევრების ლოგები: ${leaveChx}`,
                 });
             }
         });

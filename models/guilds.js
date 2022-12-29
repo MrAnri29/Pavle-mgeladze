@@ -13,7 +13,11 @@ module.exports = mongoose.model(
         },
         joinChannel: {
             type: String,
-            required: false
+            required: false,
         },
+        leaveChannel: {
+            type: String,
+            required: false
+        }
     })
 );
