@@ -18,6 +18,10 @@ module.exports = mongoose.model(
         leaveChannel: {
             type: String,
             required: false
+        },
+        msgChannel: {
+            type: String,
+            required: false
         }
     })
 );
